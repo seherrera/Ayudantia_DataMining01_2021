@@ -1,2 +1,2 @@
-# Ayudantia_DataMining01_2021
+# Ayudantia Data Mining
 material que se trabajará en las ayudantias
