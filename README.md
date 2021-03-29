@@ -3,17 +3,19 @@ Aqui podran encontrar el material con el cual se irá trabajando en las ayudanti
 
 # Link Ayudantias
 
+Ayudantia 1 ---> https://youtu.be/3Cx-lJBD0jA
+Ayudantia 2 ---> 
 
 # Referencias que podrian ser utiles
 
-RMarkdown Cookbook https://bookdown.org/yihui/rmarkdown-cookbook 
+RMarkdown Cookbook ---> https://bookdown.org/yihui/rmarkdown-cookbook 
 
-The Definitive Guide https://bookdown.org/yihui/rmarkdown/ 
+The Definitive Guide ---> https://bookdown.org/yihui/rmarkdown/ 
 
-TidyTuesdayR https://github.com/rfordatascience/tidytuesday 
+TidyTuesdayR ---> https://github.com/rfordatascience/tidytuesday 
 
-R for Data Science https://r4ds.had.co.nz/index.html 
+R for Data Science ---> https://r4ds.had.co.nz/index.html 
 
-R Packages https://r-pkgs.org/ 
+R Packages ---> https://r-pkgs.org/ 
 
-Advanced R https://adv-r.hadley.nz/
+Advanced R ---> https://adv-r.hadley.nz/
