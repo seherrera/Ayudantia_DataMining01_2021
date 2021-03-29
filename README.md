@@ -5,7 +5,7 @@ Aqui podran encontrar el material con el cual se irá trabajando en las ayudanti
 
 Ayudantia 1 ---> https://youtu.be/3Cx-lJBD0jA
 
-Ayudantia 2 ---> 
+Ayudantia 2 ---> https://youtu.be/gZm8mk8bf_k
 
 # Referencias que podrian ser utiles
 
