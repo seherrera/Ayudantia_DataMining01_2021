@@ -11,7 +11,7 @@ Ayudantia 2 ---> https://youtu.be/gZm8mk8bf_k
 
 RMarkdown Cookbook ---> https://bookdown.org/yihui/rmarkdown-cookbook 
 
-The Definitive Guide ---> https://bookdown.org/yihui/rmarkdown/ 
+The Definitive Guide RMarkdown ---> https://bookdown.org/yihui/rmarkdown/ 
 
 TidyTuesdayR ---> https://github.com/rfordatascience/tidytuesday 
 
