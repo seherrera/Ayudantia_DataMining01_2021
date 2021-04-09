@@ -39,14 +39,14 @@ library(dplyr)
 library(tidyverse)
 ```
 
-    ## -- Attaching packages -------------------------------------------------------------------------------------------------------------- tidyverse 1.3.0 --
+    ## -- Attaching packages ------------------------------------------------------------------------------------------------- tidyverse 1.3.0 --
 
     ## v ggplot2 3.3.0     v purrr   0.3.3
     ## v tibble  3.0.0     v stringr 1.4.0
     ## v tidyr   1.0.2     v forcats 0.5.0
     ## v readr   1.3.1
 
-    ## -- Conflicts ----------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+    ## -- Conflicts ---------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -173,8 +173,67 @@ summary(primer_tiempo2020)
 ## Borrar Datos Char
 
 ``` r
-primer_tiempo2020 <- primer_tiempo2020[,!(colnames(primer_tiempo2020) %in% c("id_partido", "fasepartido", "local", "tiempo","formationUsed", "torneo"))]
+primer_tiempo2020
 ```
+
+    ## # A tibble: 130 x 49
+    ##    torneo equipo id_partido partido fasepartido local tiempo accuratePass
+    ##    <chr>  <chr>  <chr>      <chr>   <chr>       <lgl> <chr>         <dbl>
+    ##  1 Prime~ Uni<f~ 6xszsf73j~ Univer~ Regular Se~ FALSE fh              235
+    ##  2 Prime~ Unive~ 6xszsf73j~ Univer~ Regular Se~ TRUE  fh              199
+    ##  3 Prime~ Evert~ e88gat05j~ Univer~ Regular Se~ FALSE fh              157
+    ##  4 Prime~ Unive~ e88gat05j~ Univer~ Regular Se~ TRUE  fh              192
+    ##  5 Prime~ Curic~ 35ijq76er~ Univer~ Regular Se~ FALSE fh              142
+    ##  6 Prime~ Unive~ 35ijq76er~ Univer~ Regular Se~ TRUE  fh              168
+    ##  7 Prime~ Coqui~ 9o9ji2f68~ Univer~ Regular Se~ FALSE fh              190
+    ##  8 Prime~ Unive~ 9o9ji2f68~ Univer~ Regular Se~ TRUE  fh              200
+    ##  9 Prime~ Santi~ 357wqv370~ Univer~ Regular Se~ FALSE fh              156
+    ## 10 Prime~ Unive~ 357wqv370~ Univer~ Regular Se~ TRUE  fh               92
+    ## # ... with 120 more rows, and 41 more variables: wonTackle <dbl>,
+    ## #   lostCorners <dbl>, goalsConceded <dbl>, saves <dbl>,
+    ## #   ontargetScoringAtt <dbl>, totalScoringAtt <dbl>, subsMade <dbl>,
+    ## #   totalThrows <dbl>, totalYellowCard <dbl>, goalKicks <dbl>, totalPass <dbl>,
+    ## #   fkFoulWon <dbl>, totalTackle <dbl>, fkFoulLost <dbl>,
+    ## #   possessionPercentage <dbl>, totalClearance <dbl>, formationUsed <dbl>,
+    ## #   blockedScoringAtt <dbl>, goalAssist <dbl>, goals <dbl>, totalOffside <dbl>,
+    ## #   shotOffTarget <dbl>, wonCorners <dbl>, cornerTaken <dbl>,
+    ## #   penaltyConceded <dbl>, penaltyFaced <dbl>, penGoalsConceded <dbl>,
+    ## #   penaltyWon <dbl>, ownGoals <dbl>, penaltySave <dbl>, secondYellow <dbl>,
+    ## #   totalRedCard <dbl>, posesion_Rival <dbl>, precision_pases <dbl>,
+    ## #   precision_tiros <dbl>, minutos_juego <dbl>, minutos_juegorival <dbl>,
+    ## #   golesSalvados <dbl>, foulsInofensivos <dbl>, cortarJuegoContrario <dbl>,
+    ## #   juegoCortado <dbl>
+
+``` r
+primer_tiempo2020 <- primer_tiempo2020[,!(colnames(primer_tiempo2020) %in% c("id_partido", "fasepartido", "local", "tiempo","formationUsed", "torneo"))]
+primer_tiempo2020
+```
+
+    ## # A tibble: 130 x 43
+    ##    equipo partido accuratePass wonTackle lostCorners goalsConceded saves
+    ##    <chr>  <chr>          <dbl>     <dbl>       <dbl>         <dbl> <dbl>
+    ##  1 Uni<f~ Univer~          235         2           3             1     4
+    ##  2 Unive~ Univer~          199         2           0             0     1
+    ##  3 Evert~ Univer~          157         7           6             0     3
+    ##  4 Unive~ Univer~          192         4           1             0     2
+    ##  5 Curic~ Univer~          142         6           3             2     2
+    ##  6 Unive~ Univer~          168         8           1             1     2
+    ##  7 Coqui~ Univer~          190         3           0             0     2
+    ##  8 Unive~ Univer~          200         5           0             0     0
+    ##  9 Santi~ Univer~          156         4           3             0     0
+    ## 10 Unive~ Univer~           92         4           1             1     1
+    ## # ... with 120 more rows, and 36 more variables: ontargetScoringAtt <dbl>,
+    ## #   totalScoringAtt <dbl>, subsMade <dbl>, totalThrows <dbl>,
+    ## #   totalYellowCard <dbl>, goalKicks <dbl>, totalPass <dbl>, fkFoulWon <dbl>,
+    ## #   totalTackle <dbl>, fkFoulLost <dbl>, possessionPercentage <dbl>,
+    ## #   totalClearance <dbl>, blockedScoringAtt <dbl>, goalAssist <dbl>,
+    ## #   goals <dbl>, totalOffside <dbl>, shotOffTarget <dbl>, wonCorners <dbl>,
+    ## #   cornerTaken <dbl>, penaltyConceded <dbl>, penaltyFaced <dbl>,
+    ## #   penGoalsConceded <dbl>, penaltyWon <dbl>, ownGoals <dbl>,
+    ## #   penaltySave <dbl>, secondYellow <dbl>, totalRedCard <dbl>,
+    ## #   posesion_Rival <dbl>, precision_pases <dbl>, precision_tiros <dbl>,
+    ## #   minutos_juego <dbl>, minutos_juegorival <dbl>, golesSalvados <dbl>,
+    ## #   foulsInofensivos <dbl>, cortarJuegoContrario <dbl>, juegoCortado <dbl>
 
 ## Analisis descriptivo
 
@@ -260,8 +319,6 @@ fh2020_tiros
 ## Filtrar Datos
 
 ``` r
-huachipato_pases <- NULL
-
 huachipato <- filter(primer_tiempo2020, equipo == "Huachipato")
 huachipato_tiros <- filter(fh2020_tiros, equipo == "Huachipato")
 huachipato_pases <- filter(fh2020_pases, equipo == "Huachipato")
@@ -302,7 +359,7 @@ huachipato_pases
 
 ``` r
 pases_hua <- huachipato$accuratePass
-huachipato2 <- huachipato[order(huachipato$accuratePass, decreasing = TRUE),]
+huachipato2 <- huachipato[order(huachipato$accuratePass, decreasing = FALSE),]
 
 #dotchart(huachipato$totalPass, labels = huachipato$partido, cex=0.5, xlab = "Pases", ylab = "Partido")
 
@@ -324,7 +381,7 @@ dotchart(huachipato2$totalPass, labels = utf8_encode(huachipato$partido), cex=0.
 ![](Ayudantia-2_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->
 
 ``` r
-dotchart(huachipato2$accuratePass, labels = utf8_encode(huachipato$partido), main="Pases Acertados Huachipato", pch = 16, col=c("darkblue","dodgerblue"),lcolor="gray90", cex=0.8, xlab = "Pases", ylab = "Partido", cex.main=2,cex.lab=1.5)
+dotchart(huachipato2$totalPass, labels = utf8_encode(huachipato$partido), main="Pases Acertados Huachipato", pch = 16, col=c("darkblue","dodgerblue"),lcolor="gray90", cex=0.8, xlab = "Pases", ylab = "Partido", cex.main=2,cex.lab=1.5)
 ```
 
 ![](Ayudantia-2_files/figure-gfm/unnamed-chunk-6-4.png)<!-- -->
@@ -336,8 +393,8 @@ texto <- primer_tiempo2020$partido
 texto <- char_tolower(texto)
 texto <- iconv(texto, to = "ASCII//TRANSLIT")
 
-a <- dfm(texto, remove = c(stopwords("es"), "vs"))
+a <- dfm(texto, remove = c(stopwords("es"), "vs", "Universidad"))
 dim(a)
 ```
 
-    ## [1] 130  32
+    ## [1] 130  31
