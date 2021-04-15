@@ -1,6 +1,12 @@
 Ayudantia 2
 ================
 
+## Actividad Ayudantia 2
+
+Replicar lo realizado en la ayudantia (analisis exploratorio de los
+datos, limpieza, sub dataframes, filtro y graficar ), pueden elegir otro
+equipo para que puedan explorar otros datos
+
 ## Analisis Exploratorio de Datos
 
 ``` r

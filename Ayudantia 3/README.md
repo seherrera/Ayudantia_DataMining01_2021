@@ -1,6 +1,14 @@
 Ayudantia 3: Outliers
 ================
 
+## Actividad Ayudantia 3
+
+Replicar el analisis de outliers, debes elegir uno de los dos csv
+disponibles (pokemon o titanic) y realizar el analisis con algunas de
+las variables numericas y realizar un pequeño analisis en relacion a los
+datos encontrados como outliers (en caso de que eligas el csv del
+titanic solo debes evaluar las columnas AGE y FNLWGT)
+
 ## Outliers
 
 Caso 1:
