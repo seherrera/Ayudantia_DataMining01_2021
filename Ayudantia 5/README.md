@@ -1,16 +1,39 @@
 Ayudantia 5 Clusters
 ================
 
-# Algoritmo de Clustering base:
+# Actividad Ayudantia 5
+
+Realizar análisis de clustering (K-means, incluye preprocesamiento de la
+data) e índices de evaluación para el archivo “sandwiches.csv” tomando
+las columnas de nota y precio. Hacer análisis para diferentes K y/o
+medidas de distancia para que vean cómo se comporta el clustering (En
+caso de tener algún problema con ese csv, pueden utilizar el csv de
+Pokémon también para la actividad)
+
+# Algoritmo de clustering base:
 
 ## K-Medias
 
-Para el analisis de clusters vamos a analizar data\_pok de ventas de
-videojuegos, echaremos un vistazo a las variables presentes.
+Para el análisis de clusters vamos a analizar la data de “pokemon.csv”
+que contiene la información de los pokemones de 7 de sus generaciones,
+echaremos un vistazo a las variables presentes.
 
 ``` r
 library(tidyverse)
+```
 
+    ## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+
+    ## v ggplot2 3.3.3     v purrr   0.3.4
+    ## v tibble  3.1.1     v dplyr   1.0.5
+    ## v tidyr   1.1.3     v stringr 1.4.0
+    ## v readr   1.3.1     v forcats 0.5.0
+
+    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+    ## x dplyr::filter() masks stats::filter()
+    ## x dplyr::lag()    masks stats::lag()
+
+``` r
 setwd("D:/Users/Italo/Documents/Italo Felipe/UAI/Semestre 11/Ayudantia Mineria de Datos/material ayudantia/Ayudantia5")
 data_pok  <- read.csv("pokemon.csv", sep=",")
 
@@ -63,13 +86,13 @@ summary(data_pok)
 
 Para clusterizar vamos a seleccionar las variables de Hp, Ataque,
 Defensa, Speed, Generacion y Legendary. Para analizar el comportamiento
-vamos a excluir special attack y special defense.
+vamos a excluir Special Attack y Special Defense.
 
 Antes de clusterizar debemos preparar la data\_pok:
 
   - Eliminando datos faltantes.
 
-  - Pasar Legendary a numerico.
+  - Pasar Legendary a numérico.
 
   - Escalar la data\_pok
 
@@ -109,6 +132,8 @@ Ya tenemos escalada la data\_pok, vamos a aplicar el algoritmo de
 kmedias, que viene implementado en R base. Para probar, vamos a aplicar
 kmedias con k = 10
 
+## Analisis Cluster K = 10
+
 ``` r
 modelo_kmeans <- kmeans(escal_data_pok, centers = 10)
 modelo_kmeans2 <- kmeans(numdata_pok, centers = 10)
@@ -122,7 +147,7 @@ ggplot(escal_data_pok, aes(Speed, Attack, color=clus)) +
   theme_bw()
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/clus%20k10-1.png)<!-- -->
 
 ``` r
 ggplot(numdata_pok, aes(Speed, Attack, color=clus)) +
@@ -130,7 +155,7 @@ ggplot(numdata_pok, aes(Speed, Attack, color=clus)) +
   theme_bw()
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/clus%20k10-2.png)<!-- -->
 
 ``` r
 info_clus <- modelo_kmeans$centers
@@ -139,20 +164,20 @@ info_clus2 <- modelo_kmeans2$centers
 info_clus
 ```
 
-    ##         Type.1         HP      Attack     Defense      Speed Generation
-    ## 1  -0.03415139  0.9195228  1.16077421  0.82797114  1.0979558  0.2681535
-    ## 2  -1.30432746 -0.7925118 -0.70249847 -0.78917268 -0.4297456 -0.3754611
-    ## 3   0.90996970  0.2467961  0.63249289  1.64393220 -0.5695099 -0.4137665
-    ## 4   0.18875738  0.2758341  0.24322933 -0.02768558  0.7987510  1.0152750
-    ## 5  -0.98271397  0.4816443  1.43740832  0.32100177  0.5032313  0.2985162
-    ## 6  -1.06593013 -0.1675362 -0.09246745  0.97634842 -0.6719608  0.3954873
-    ## 7   0.27979331 -0.5602903 -0.69473681 -0.51636651 -0.6851958  1.0958233
-    ## 8   0.71665086  2.0419787 -0.35606110 -0.28783918 -0.6893575 -0.2751375
-    ## 9   0.08763272  0.1273609  0.30269976 -0.08766830  1.0362462 -1.0454485
-    ## 10  0.67747689 -0.7536125 -0.77338455 -0.65321825 -0.4696962 -0.7594906
+    ##         Type.1          HP     Attack    Defense       Speed Generation
+    ## 1   0.68720093  2.09462030 -0.3561407 -0.3059366 -0.73298034 -0.2648719
+    ## 2  -0.03415139  0.91952285  1.1607742  0.8279711  1.09795579  0.2681535
+    ## 3  -1.19710398 -0.33009877 -0.4523504 -0.2603651 -0.05421014  0.8553176
+    ## 4   0.64356535 -0.75421968 -0.7733866 -0.6953304 -0.42132440 -0.8322287
+    ## 5  -0.43009522  0.53638080  1.0540668  0.2940252  0.55069298  0.8872638
+    ## 6   0.56685800 -0.04146324  0.3165899  1.8487279 -0.96193969 -0.1856180
+    ## 7   0.56424031 -0.55366051 -0.6881206 -0.5151674 -0.48052791  1.0454861
+    ## 8   0.85185500  0.33592714  0.4049306  0.1552165  0.74815473 -0.4726979
+    ## 9  -1.17526722 -1.00557136 -0.9517765 -0.8870294 -0.77034501 -0.7202096
+    ## 10 -1.04129270  0.01616985  0.5729290  0.0577001  0.61241696 -1.0304097
     ##     Legendary
-    ## 1   3.3605889
-    ## 2  -0.2971949
+    ## 1  -0.2971949
+    ## 2   3.3605889
     ## 3  -0.2971949
     ## 4  -0.2971949
     ## 5  -0.2971949
@@ -167,19 +192,18 @@ info_clus2
 ```
 
     ##       Type.1        HP    Attack   Defense     Speed Generation Legendary
-    ## 1  14.125000  62.79167  81.62500 168.20833  44.29167   3.375000  1.166667
-    ## 2  10.486957  47.55652  50.21739  45.41739  73.99130   3.052174  1.000000
-    ## 3  10.764045  86.52809  98.95506  94.19101  88.53933   3.280899  1.235955
-    ## 4   9.456140  93.14035 147.01754  93.80702 102.14035   3.438596  1.456140
-    ## 5  11.328125  82.60938 108.81250 104.26562  49.15625   3.500000  1.015625
-    ## 6   9.612613  70.92793  82.73874  67.51351 108.45045   3.324324  1.099099
-    ## 7  10.141667  51.36667  45.85833  47.51667  37.92500   3.375000  1.000000
-    ## 8  13.162791 123.30233  68.58140  65.44186  48.00000   3.186047  1.000000
-    ## 9   9.606061  67.43434  87.01010  60.73737  59.40404   3.434343  1.010101
-    ## 10 10.333333  52.80769  64.94872  94.71795  47.02564   3.384615  1.012821
+    ## 1  10.186916  50.14019  52.51402  45.57944  78.42991   3.149533  1.000000
+    ## 2  10.070175  48.19298  43.02632  45.47368  40.08772   3.245614  1.000000
+    ## 3  10.026316  66.71930  73.02632  61.45614  51.33333   3.482456  1.000000
+    ## 4  11.404494  80.23596  83.74157 103.59551  71.87640   3.404494  1.112360
+    ## 5  11.258621  51.17241  66.31034  97.15517  36.27586   3.120690  1.017241
+    ## 6  14.344828  64.48276  86.93103 161.58621  42.58621   3.448276  1.137931
+    ## 7   9.550847  71.58475  87.24576  68.68644 108.97458   3.237288  1.127119
+    ## 8  14.304348 143.69565  70.00000  56.26087  47.43478   3.173913  1.000000
+    ## 9  10.000000  83.90909 117.18182  74.71429  66.53247   3.571429  1.025974
+    ## 10  9.619718  95.07042 135.26761 103.01408  98.57746   3.394366  1.464789
 
-Vamos a ver como evoluciona la suma de cuadrados intra-cluster en la
-medida que aumentamos el numero de k
+## Evolución suma de cuadrados intra-cluster en la medida que aumentamos el numero de k
 
 ``` r
 SSinterior <- numeric(30)
@@ -192,17 +216,32 @@ for(k in 1:30){
 plot(SSinterior)
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/evolucion%20sse-1.png)<!-- -->
+
+## Metodo del Codo 2
 
 ``` r
 #Calculando K para Data normalizada
 k.max <- 30
 wss1 <- sapply(1:k.max, 
               function(k){kmeans(escal_data_pok, k, nstart=50,iter.max = 8)$tot.withinss})
+```
+
+    ## Warning: did not converge in 8 iterations
+    
+    ## Warning: did not converge in 8 iterations
+
+``` r
 wss2 <- sapply(1:k.max, 
               function(k){kmeans(numdata_pok, k, nstart=50,iter.max = 8)$tot.withinss})
 ```
 
+    ## Warning: did not converge in 8 iterations
+    
+    ## Warning: did not converge in 8 iterations
+    
+    ## Warning: did not converge in 8 iterations
+    
     ## Warning: did not converge in 8 iterations
     
     ## Warning: did not converge in 8 iterations
@@ -273,7 +312,7 @@ plot(1:k.max, wss1,
      ylab="Total within-clusters sum of squares")
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/metodo%20codo2-1.png)<!-- -->
 
 ``` r
 plot(1:k.max, wss2,
@@ -282,13 +321,14 @@ plot(1:k.max, wss2,
      ylab="Total within-clusters sum of squares")
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-4-2.png)<!-- --> \#\#
-Evaluacion
+![](Ayudantia5_files/figure-gfm/metodo%20codo2-2.png)<!-- -->
+
+# Evaluacion
 
 Existen diversos metodos de evaluacion de calidad de los clusters
 resultantes.
 
-Inspeccion visual
+## Inspeccion visual
 
 ``` r
 escal_data_pok$clus <- as.numeric(escal_data_pok$clus)
@@ -306,9 +346,9 @@ colnames(tempDist) <- c(1:nrow(escal_data_pok))
 image(tempDist)
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/insp%20visual-1.png)<!-- -->
 
-Estadistico de Hopkins.
+## Estadistico de Hopkins.
 
 ``` r
 library(factoextra)
@@ -325,7 +365,7 @@ print(res)
 ```
 
     ## $hopkins_stat
-    ## [1] 0.8198401
+    ## [1] 0.8237485
     ## 
     ## $plot
     ## NULL
@@ -335,12 +375,12 @@ print(res2)
 ```
 
     ## $hopkins_stat
-    ## [1] 0.8016206
+    ## [1] 0.8027837
     ## 
     ## $plot
     ## NULL
 
-Indice de correlación
+## Indice de correlación
 
 ``` r
 #Correlation
@@ -366,9 +406,9 @@ cor <- cor(tempMatrix[upper.tri(tempMatrix)],tempDist2[upper.tri(tempDist2)])
 print(cor)
 ```
 
-    ## [1] 0.6873689
+    ## [1] 0.6965268
 
-Indice de cohesión y el de separación.
+## Indice de cohesión y el de separación.
 
 ``` r
 library(flexclust) # usaremos la distancia implementada en flexclus (dist2) que maneja mejor objetos de diferente tamaño
@@ -396,7 +436,7 @@ cohesion = sum(withinCluster)
 print(c(cohesion, modelo_kmeans$tot.withinss))
 ```
 
-    ## [1] 2227.494 2227.494
+    ## [1] 2201.338 2201.338
 
 ``` r
 #Separation
@@ -411,9 +451,9 @@ separation = sum(SSB)
 print(separation)
 ```
 
-    ## [1] 10617.38
+    ## [1] 8851.742
 
-Y finalmente aplicamos el coeficiente de silueta
+## Coeficiente de silueta
 
 ``` r
 library(cluster)
@@ -424,13 +464,13 @@ summary(coefSil)
 
     ## Silhouette of 800 units in 10 clusters from silhouette.default(x = modelo_kmeans$cluster, dist = dist(escal_data_pok)) :
     ##  Cluster sizes and average silhouette widths:
-    ##        65        90        66        96        61        52       104        45 
-    ## 0.4541425 0.4841248 0.2791842 0.2933638 0.2096751 0.2315727 0.4082401 0.2139112 
-    ##        92       129 
-    ## 0.3157585 0.3584931 
+    ##        43        65        94       119        89        65        99       104 
+    ## 0.3832247 0.4437532 0.3830292 0.4175929 0.3205739 0.2055988 0.4218214 0.3247871 
+    ##        55        67 
+    ## 0.4132641 0.2998245 
     ## Individual silhouette widths:
     ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-    ## -0.04439  0.24406  0.34688  0.33986  0.44496  0.60019
+    ## -0.02596  0.29289  0.37656  0.36409  0.44449  0.59265
 
 ``` r
 #visualizamos el codigo de silueta de cada cluster
@@ -438,20 +478,20 @@ fviz_silhouette(coefSil) + coord_flip()
 ```
 
     ##    cluster size ave.sil.width
-    ## 1        1   65          0.45
-    ## 2        2   90          0.48
-    ## 3        3   66          0.28
-    ## 4        4   96          0.29
-    ## 5        5   61          0.21
-    ## 6        6   52          0.23
-    ## 7        7  104          0.41
-    ## 8        8   45          0.21
-    ## 9        9   92          0.32
-    ## 10      10  129          0.36
+    ## 1        1   43          0.38
+    ## 2        2   65          0.44
+    ## 3        3   94          0.38
+    ## 4        4  119          0.42
+    ## 5        5   89          0.32
+    ## 6        6   65          0.21
+    ## 7        7   99          0.42
+    ## 8        8  104          0.32
+    ## 9        9   55          0.41
+    ## 10      10   67          0.30
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/coef%20silueta-1.png)<!-- -->
 
-# Utilizamos el coeficiente de silueta para encontrar el mejor valor de K
+## Utilizamos el coeficiente de silueta para encontrar el mejor valor de K
 
 ``` r
 coefSil=numeric(30)
@@ -467,14 +507,16 @@ ggplot(tempDF, aes(x=K, y=CS)) +
   scale_x_continuous(breaks=c(1:30))
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/valor%20k%20silueta-1.png)<!-- -->
+
+# 2do Análisis Cluster
 
 ``` r
-numdata_pok2 <- data_pok[, colnames(data_pok) %in% c("Type.1","HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed", "Generation", "Legendary")]
+numdata_pok2 <- data_pok[, colnames(data_pok) %in% c("Type.1","HP", "Attack", "Defense", "Speed", "Generation", "Legendary")]
 escal_data_pok2 = scale(numdata_pok2) %>% as_tibble()
 
-modelo_kmean <- kmeans(escal_data_pok2, centers = 4)
-modelo_kmean2 <- kmeans(numdata_pok2, centers = 4)
+modelo_kmean <- kmeans(escal_data_pok2, centers = 5)
+modelo_kmean2 <- kmeans(numdata_pok2, centers = 5)
 
 # creo la variable cluster en la tabla escal_data_pokda
 escal_data_pok2$clus2 <- modelo_kmean$cluster %>% as.factor()
@@ -485,7 +527,7 @@ ggplot(escal_data_pok2, aes(Speed, Attack, color=clus2)) +
   theme_bw()
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/clust2-1.png)<!-- -->
 
 ``` r
 ggplot(numdata_pok2, aes(Speed, Attack, color=clus2)) +
@@ -493,7 +535,7 @@ ggplot(numdata_pok2, aes(Speed, Attack, color=clus2)) +
   theme_bw()
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/clust2-2.png)<!-- -->
 
 ``` r
 info_clusters <- modelo_kmean$centers
@@ -502,37 +544,38 @@ info_clusters2 <- modelo_kmean2$centers
 info_clusters
 ```
 
-    ##        Type.1         HP     Attack    Defense    Sp..Atk     Sp..Def
-    ## 1 -0.03415139  0.9195228  1.1607742  0.8279711  1.5085927  1.22304303
-    ## 2  0.70470419  3.5249298 -0.3779702 -0.8607917 -0.2308314 -0.01326558
-    ## 3  0.01572837  0.3114216  0.4261484  0.4399093  0.3163665  0.40635061
-    ## 4 -0.04371317 -0.7063019 -0.7116390 -0.6405769 -0.6575910 -0.71712749
-    ##        Speed  Generation  Legendary
-    ## 1  1.0979558  0.26815346  3.3605889
-    ## 2 -0.6404174 -0.63630256 -0.2971949
-    ## 3  0.2960808  0.03104294 -0.2971949
-    ## 4 -0.5345507 -0.06030556 -0.2971949
+    ##        Type.1          HP     Attack    Defense       Speed  Generation
+    ## 1 -1.00421263  0.09390432  0.4305185  0.0672437  0.51009183  0.23073673
+    ## 2  0.68902418  3.50224825 -0.1983756 -0.7545657 -0.53216614 -0.60871356
+    ## 3  0.74774219  0.32201011  0.3427349  0.6587598 -0.05475849 -0.08909808
+    ## 4  0.04013890 -0.74949797 -0.8490519 -0.7535565 -0.53462189 -0.11376592
+    ## 5 -0.03415139  0.91952285  1.1607742  0.8279711  1.09795579  0.26815346
+    ##    Legendary
+    ## 1 -0.2971949
+    ## 2 -0.2971949
+    ## 3 -0.2971949
+    ## 4 -0.2971949
+    ## 5  3.3605889
 
 ``` r
 info_clusters2
 ```
 
-    ##      Type.1       HP    Attack   Defense   Sp..Atk  Sp..Def     Speed
-    ## 1  9.719298 89.20175 121.09649  92.73684 120.45614 97.67544 100.44737
-    ## 2 11.130435 71.30435  92.91304 121.42609  63.89565 88.23478  52.36522
-    ## 3 10.493056 79.18056  81.31944  69.19097  82.01042 77.53125  80.10417
-    ## 4 10.473498 50.29682  54.03180  51.62898  47.90459 49.15548  49.74912
-    ##   Generation Legendary
-    ## 1   3.385965  1.508772
-    ## 2   3.513043  1.060870
-    ## 3   3.246528  1.000000
-    ## 4   3.300353  1.000000
+    ##      Type.1       HP    Attack   Defense    Speed Generation Legendary
+    ## 1 12.179245 65.30189  85.07547 123.10377 46.98113   3.358491  1.075472
+    ## 2 10.182156 49.50558  50.94052  50.18216 51.51301   3.289963  1.000000
+    ## 3 11.814516 96.25000  83.46774  70.83871 54.13710   3.370968  1.016129
+    ## 4  9.577236 88.95935 130.73171  92.21951 93.59350   3.471545  1.365854
+    ## 5  9.556180 69.05056  78.93258  69.65730 98.65169   3.219101  1.056180
 
-## Evaluacion
+# Evaluacion
 
-Inspeccion visual
+## Inspeccion visual
 
 ``` r
+escal_data_pok2$clus <- as.numeric(escal_data_pok2$clus2)
+numdata_pok2$clus <- as.numeric(numdata_pok2$clus2)
+
 # uso distancia euclidiana
 tempDist_2 <- dist(escal_data_pok2) %>% as.matrix()
 
@@ -545,9 +588,40 @@ colnames(tempDist_2) <- c(1:nrow(data_pok))
 image(tempDist_2)
 ```
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/insp%20visual2-1.png)<!-- -->
 
-Indice de correlación
+## Estadistico de Hopkins.
+
+``` r
+library(factoextra)
+
+escal_data_pok2$clus2 <- NULL
+numdata_pok2$clus2 <- NULL
+
+#Calcula el hopkins statistic 
+res_1 <- get_clust_tendency(escal_data_pok2, n = 30, graph = FALSE)
+res_2 <- get_clust_tendency(numdata_pok2, n = 30, graph = FALSE)
+
+print(res_1)
+```
+
+    ## $hopkins_stat
+    ## [1] 0.8068474
+    ## 
+    ## $plot
+    ## NULL
+
+``` r
+print(res_2)
+```
+
+    ## $hopkins_stat
+    ## [1] 0.8025411
+    ## 
+    ## $plot
+    ## NULL
+
+## Indice de correlación
 
 ``` r
 #Correlation
@@ -557,6 +631,7 @@ tempMatrix2[which(index$x==1), which(index$x==1)]  <- 1
 tempMatrix2[which(index$x==2), which(index$x==2)]  <- 1
 tempMatrix2[which(index$x==3), which(index$x==3)]  <- 1
 tempMatrix2[which(index$x==4), which(index$x==4)]  <- 1
+tempMatrix2[which(index$x==5), which(index$x==5)]  <- 1
 
 #construyo matriz de disimilitud
 tempDist_22 <- 1/(1+tempDist_2)
@@ -567,9 +642,9 @@ cor2 <- cor(tempMatrix2[upper.tri(tempMatrix2)],tempDist_2[upper.tri(tempDist_2)
 print(cor2)
 ```
 
-    ## [1] -0.5244858
+    ## [1] -0.6544947
 
-Indice de cohesión y el de separación.
+## Indice de cohesión y el de separación.
 
 ``` r
 library(flexclust) # usaremos la distancia implementada en flexclus (dist2) que maneja mejor objetos de diferente tamaño
@@ -586,7 +661,7 @@ cohesion2 = sum(withinCluster)
 print(c(cohesion2, modelo_kmean$tot.withinss))
 ```
 
-    ## [1] 4456.786 4456.786
+    ## [1] 2794.102 3099.315
 
 ``` r
 #Separation
@@ -601,9 +676,9 @@ separation2 = sum(SSB)
 print(separation2)
 ```
 
-    ## [1] 3296.969
+    ## [1] 2579.397
 
-Coeficiente de silueta
+## Coeficiente de silueta
 
 ``` r
 library(cluster)
@@ -612,13 +687,13 @@ coefSil2 <- silhouette(modelo_kmean$cluster,dist(escal_data_pok2))
 summary(coefSil2)
 ```
 
-    ## Silhouette of 800 units in 4 clusters from silhouette.default(x = modelo_kmean$cluster, dist = dist(escal_data_pok2)) :
+    ## Silhouette of 800 units in 5 clusters from silhouette.default(x = modelo_kmean$cluster, dist = dist(escal_data_pok2)) :
     ##  Cluster sizes and average silhouette widths:
-    ##        65        15       389       331 
-    ## 0.4010622 0.2650684 0.1650899 0.3040967 
+    ##       198        16       239       282        65 
+    ## 0.3323904 0.2674069 0.2055785 0.3121655 0.4570724 
     ## Individual silhouette widths:
-    ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-    ## -0.03048  0.16168  0.24129  0.24365  0.33659  0.49083
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ## 0.00958 0.22597 0.29910 0.29621 0.37568 0.56785
 
 ``` r
 #visualizamos el codigo de silueta de cada cluster
@@ -626,9 +701,10 @@ fviz_silhouette(coefSil2) + coord_flip()
 ```
 
     ##   cluster size ave.sil.width
-    ## 1       1   65          0.40
-    ## 2       2   15          0.27
-    ## 3       3  389          0.17
-    ## 4       4  331          0.30
+    ## 1       1  198          0.33
+    ## 2       2   16          0.27
+    ## 3       3  239          0.21
+    ## 4       4  282          0.31
+    ## 5       5   65          0.46
 
-![](Ayudantia5_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](Ayudantia5_files/figure-gfm/coef%20silueta2-1.png)<!-- -->
