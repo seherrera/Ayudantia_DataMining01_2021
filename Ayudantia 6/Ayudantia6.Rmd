@@ -1,0 +1,244 @@
+---
+title: "Ayudantia 6: Clusters Jerárquicos"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Importar Librerias
+```{r}
+library(tidyverse)
+library(cluster)
+library(factoextra)
+library(janitor)
+```
+
+# Cargar Datos:
+```{r}
+setwd("D:/Users/Italo/Documents/Italo Felipe/UAI/Semestre 11/Ayudantia Mineria de Datos/material ayudantia/Ayudantia6")
+
+data <- read.csv("Spotify_Songs.csv")
+
+summary(data)
+head(data)
+```
+
+# Pre Procesamiento de los Datos
+
+## Limpieza Datos:
+
+Para este dataset el proceso de limpieza de datos sera un poco mas extensa por lo que debemos ir por partes
+
+- Primero verificar la existencia de valores NA o faltantes
+```{r}
+# Para las observaciones que tengan datos faltantes, le asignamos el valor NA para eliminarlos en el siguiente paso
+data[data == ""] <- NA
+
+# Verificamos donde hay valores NAs
+data %>% 
+  summarise_all(funs(sum(is.na(.))))
+
+# De existir eliminamos todas las observaciones que presenten estos datos
+data_pre <- data %>% 
+  filter(!(is.na(track_name)|is.na(track_artist)|is.na(track_album_name)|is.na(duration_ms)))
+
+# Corroboramos que no queden datos NA
+data_pre %>% 
+  summarise_all(funs(sum(is.na(.))))
+
+```
+
+- Segundo filtrar y remover datos duplicados
+```{r}
+data_pre <- data_pre[!duplicated(data_pre$track_id),]
+
+```
+
+- Tercero verificar la existencia de errores en los datos de las observaciones
+```{r}
+# Al explorar la base de datos podemos darnos cuenta de que hay varias observaciones que tiene mal ingresado los datos
+# Por lo que tomaremos la columna track_popularity (como sabemos que es un valor numerico entre 0-100) y transformares esa columna
+# de factor a numerico, por lo que todas las observaciones que no sean numeros se ingresara NA por defecto
+
+data_pre$track_popularity <- as.numeric(as.character(data_pre$track_popularity))
+
+# Como generamos nuevos valores NA dentro de nuestra BBDD, debemos volver a ejecutar el paso uno de la limpieza de datos
+
+data_pre <- data_pre %>% 
+  filter(!(is.na(track_popularity)))
+
+# Eliminamos el patron <U que aparece en algunas observaciones en track_name
+
+data_pre <- data_pre[!grepl("<U",data_pre$track_name),]
+
+```
+
+Una vez limpiados los datos, el siguiente paso en el pre procesamiento será escalar los datos pero antes debemos revisar los datos por si hay que transformar alguna variable
+
+## Revisar Estructura Datos
+
+```{r}
+data_pre$track_id <- as.character(data_pre$track_id)
+data_pre$track_name <- as.character(data_pre$track_name)
+data_pre$track_artist <- as.character(data_pre$track_artist)
+data_pre$track_album_id <- as.character(data_pre$track_album_id)
+data_pre$track_album_name <-  as.character(data_pre$track_album_name)
+data_pre$playlist_name <- as.character(data_pre$playlist_name)
+data_pre$playlist_id <- as.character(data_pre$playlist_id)
+data_pre$playlist_genre <- as.character(data_pre$playlist_genre)
+data_pre$playlist_subgenre <- as.character(data_pre$playlist_subgenre)
+
+data_pre$danceability <- as.double(as.character(data_pre$danceability))
+data_pre$energy <- as.double(as.character(data_pre$energy))
+data_pre$key <- as.double(as.character(data_pre$key))
+data_pre$loudness <- as.double(as.character(data_pre$loudness))
+data_pre$mode <- as.double(as.character(data_pre$mode))
+data_pre$speechiness <- as.double(as.character(data_pre$speechiness)) 
+data_pre$acousticness <- as.double(as.character(data_pre$acousticness))
+data_pre$instrumentalness <- as.double(as.character(data_pre$instrumentalness))
+data_pre$liveness <- as.double(as.character(data_pre$liveness))
+data_pre$valence <- as.double(as.character(data_pre$valence))
+data_pre$tempo <- as.double(as.character(data_pre$tempo))
+data_pre$duration_ms <- as.double(as.character(data_pre$duration_ms))
+
+#data_pre <- data_pre %>% mutate(duration_min = data_pre$duration_ms/60000)
+
+# Character
+data_char <- c("track_id", "track_name", "track_artist", "track_album_id", "track_album_name", "playlist_name", "playlist_id", "playlist_genre", "playlist_subgenre")
+
+# Double
+data_dou <- c("track_popularity","danceability", "energy", "key", "loudness", "mode", "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo", "duration_ms")
+
+# Volvemos a borrar los datos que puedan haber quedado como NA con el cambio de tipo de variable
+data_pre <- data_pre %>% 
+  filter(!(is.na(key)|is.na(danceability)))
+
+summary(data_pre)
+
+str(data_pre)
+
+```
+
+## Separo Datos
+
+```{r}
+datanum <- data_pre %>% 
+  select(data_dou)
+
+datachar <- data_pre %>% 
+  select(data_char)
+
+```
+
+## Escalar Datos
+```{r}
+data_sca <- sapply(datanum, scale)
+
+#min_max_norm <- function(x) {
+#    return((x - mean(x))/(max(x) - min(x)))    
+#  }
+
+#div_norm <- function(y) {
+#    y/100
+#  }
+  
+#des_norm <- function(z) {
+#    return((z+min(z))*(max(z) - min(z)))
+#  }
+  
+```
+
+# Procesamiento de los Datos
+
+## Clustering Jerarquico
+
+- Matriz de Distancias
+```{r}
+#Distancia euclideana
+d = dist(data_sca, method = "euclidean")
+d1 = dist(data_sca, method = "manhattan")
+d2 = dist(data_sca, method = "minkowski")
+
+hist(d, main = "Histograma Distancia Euclideana")
+hist(d1, main = "Histograma Distancia Manhattan")
+hist(d2, main = "Histograma Distancia Minkowski")
+```
+
+## Clustering Aglomerativo
+
+Utilizando la funcion de R base hclust, aplicamos hierarchical clustering, a partir de la matriz de distancias d, y utilizamos el criterio complete linkage
+
+- Complete Model
+```{r}
+model_complete <- hclust(d, method = "complete")
+
+summary(model_complete)
+```
+
+- Ward Model
+```{r}
+model_ward <- hclust(d, method = "ward.D")
+
+summary(model_ward)
+```
+
+- Otra forma
+```{r}
+#model_comag <- agnes(d, method = "complete")
+
+#model_comag$ac
+```
+
+```{r}
+#model_wardag <- agnes(d, method = "ward.D")
+
+#model_wardag$ac
+```
+
+
+
+```{r}
+#models <- c("single", "complete", "average", "ward")
+#names(models) <- c("single", "complete", "average", "ward")
+
+models <- c("complete", "ward")
+names(models) <- c("complete", "ward")
+
+agcoef <- function(x) {
+  agnes(data_sca, method = x)$ac
+}
+
+#sapply(models, agcoef)
+
+```
+
+Generamos un dendrograma para visualizar la jerarquia. La libreria 'ggdendro' permite hacer estos diagramas en una sintaxis equivalente a ggplot. 
+
+```{r}
+
+library("ggdendro")
+
+ggdendrogram(model_complete, rotate = TRUE, theme_dendro = TRUE) 
+
+```
+
+## Corte
+```{r}
+groups <- cutree(model_complete, k=25)
+
+table(groups)
+
+fviz_cluster(list(data = data_sca, cluster = groups))
+```
+
+## Clustering Divisivo
+```{r}
+modelo_div <- diana(data_sca)
+
+modelo_div$dc
+
+pltree(modelo_div, cex = 0.6, hang = -1, main = "Dendrogram of diana")
+```
+
