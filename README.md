@@ -13,7 +13,7 @@ Ayudantia 4 --> https://youtu.be/j1Y46W_zxAc
 
 Ayudantia 5 --> https://youtu.be/R_syNSz8G-Y
 
-Ayudantia 6 --> 
+Ayudantia 6 --> https://youtu.be/8utVz6IeL_4
 
 # Referencias que podrian ser utiles
 
