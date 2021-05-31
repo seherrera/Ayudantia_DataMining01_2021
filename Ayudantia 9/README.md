@@ -1,7 +1,14 @@
 Ayudantia 9: Regresion Lineal y Regresion Logistica
 ================
 
-# Ayudantia 9 Regresion Lineal y Regresion Logistica
+## Actividad Ayudantia 9:
+
+Para la actividad de esta ayudantía tendrá que utilizar dos datasets, el
+primer dataset que utilizar para la regresión lineal será la data de los
+autos usados del fabricante toyota. El segundo dataset para la regresión
+logística será el dataset de los vinos que hemos utilizado antes, donde
+se busca clasificar según la calidad del vino. (Entrega límite:
+6/06/2021 23:59)
 
 ## Cargar Librerias
 
